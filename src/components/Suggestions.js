@@ -8,12 +8,16 @@ class Suggestions extends Component {
                     
                 <li key={place.key}>
                     <span className="name">{place.city}, {place.state}</span>
-                    <span className="population">{place.population}</span>
+                    <span className="population">{numberWithCommas(place.population)}</span>
                 </li>
 
             ))
         );
     }
 }
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
 
 export default Suggestions;
