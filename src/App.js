@@ -6,7 +6,8 @@ class App extends Component {
   constructor(props){
     super(props)
     this.state = {
-      places: []
+      places: [],
+      query: ""
     }
   }
 
@@ -30,8 +31,14 @@ class App extends Component {
     }))
     .catch(error => console.log("parsing failed", error))
   }
+
+  searchPlace = (query) => {
+    this.setState({ query: query.trim() });
+  }
   
   render() {
+    console.log(this.state.query);
+    
     
     return (
       <div>
@@ -40,6 +47,7 @@ class App extends Component {
             type="text"
             className="search"
             placeholder="City or State"
+            onChange={(evt) => this.searchPlace(evt.target.value)}
           />
           <ul className="suggestions">
             <Suggestions
