@@ -33,17 +33,17 @@ class App extends Component {
   }
 
   findMatches = (e) => {
-      this.setState({ 
-        query: e.target.value
-      });
-    
+    this.setState({ 
+      query: e.target.value
+    });
   }
 
   render() {
-    const { places} = this.state;
+    const { places } = this.state;    
+    const regex = new RegExp(this.state.query, "gi");
 
     const filteredList = places
-      .filter(place =>  this.state.query === "" || place.city.toLowerCase().includes(this.state.query.toLowerCase()) || place.state.toLowerCase().includes(this.state.query.toLowerCase()))
+      .filter(place =>  this.state.query === "" || place.city.match(regex) || place.state.match(regex))
       .map((place) => <Suggestions  key={place.key} filteredPlaces={place} />)
 
     return (
