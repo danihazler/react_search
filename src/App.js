@@ -32,14 +32,20 @@ class App extends Component {
     .catch(error => console.log("parsing failed", error))
   }
 
-  searchPlace = (query) => {
-    this.setState({ query: query.trim() });
+  findMatches = (e) => {
+      this.setState({ 
+        query: e.target.value
+      });
+    
   }
-  
+
   render() {
-    console.log(this.state.query);
-    
-    
+    const { places} = this.state;
+
+    const filteredList = places
+      .filter(place =>  this.state.query === "" || place.city.toLowerCase().includes(this.state.query.toLowerCase()) || place.state.toLowerCase().includes(this.state.query.toLowerCase()))
+      .map((place) => <Suggestions  key={place.key} filteredPlaces={place} />)
+
     return (
       <div>
         <form className="search-form">
@@ -47,16 +53,14 @@ class App extends Component {
             type="text"
             className="search"
             placeholder="City or State"
-            onChange={(evt) => this.searchPlace(evt.target.value)}
+            onChange={this.findMatches}
           />
           <ul className="suggestions">
-            <Suggestions
-              placesSuggested = {this.state.places}
-            />
+            {filteredList}
           </ul>
         </form>
       </div>
-    );
+    )
   }
 }
 
